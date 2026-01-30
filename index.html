@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>The Wedding of Yudha & Tiana</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --primary:#6f8fd6;
+      --secondary:#c9d6ff;
+      --gold:#b59b5a;
+      --dark:#1f2a44;
+    }
+    body{
+      margin:0;
+      font-family:'Montserrat',sans-serif;
+      background:
+        linear-gradient(rgba(255,255,255,.78),rgba(255,255,255,.78)),
+        url('background.jpg') center/cover fixed no-repeat;
+      color:var(--dark);
+    }
+    .container{
+      max-width:900px;
+      margin:auto;
+      background:rgba(255,255,255,.9);
+      box-shadow:0 15px 40px rgba(0,0,0,.15);
+    }
+    section{ padding:60px 25px; text-align:center; }
+    h1,h2,h3{ font-family:'Playfair Display',serif; }
+    .divider{ width:90px;height:2px;background:var(--gold);margin:20px auto; }
+    .names{ font-size:34px;margin:20px 0; }
+    button{
+      padding:12px 30px;border-radius:30px;border:none;
+      cursor:pointer;font-size:15px;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      color:#fff;
+    }
+    header{
+      padding:120px 20px;
+      background:
+        linear-gradient(rgba(40,70,150,.55),rgba(40,70,150,.55)),
+        url('cover.jpg') center/cover no-repeat;
+      color:#fff;
+      text-align:center;
+      display:none;
+    }
+    .countdown{
+      display:flex;justify-content:center;gap:15px;flex-wrap:wrap;
+    }
+    .countdown div{
+      background:#f7f9ff;padding:15px 20px;border-radius:14px;min-width:90px;
+    }
+    .countdown span{ font-size:28px;font-weight:bold;color:var(--primary); }
+    .event-box{
+      background:#f7f9ff;border-radius:20px;padding:30px;
+    }
+    footer{
+      padding:30px;background:#eef2ff;font-size:14px;text-align:center;
+    }
+  </style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="elegant-wedding.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+
+  <!-- COVER -->
+  <section id="cover">
+    <h3>Undangan Pernikahan</h3>
+    <h1>Yudha & Tiana</h1>
+    <button onclick="openInvite()">Buka Undangan</button>
+  </section>
+
+  <!-- HEADER -->
+  <header id="main">
+    <h2>The Wedding Of</h2>
+    <h1>Yudha & Tiana</h1>
+    <div id="guestName"></div>
+  </header>
+
+  <section>
+    <p><em>Bismillahirrahmanirrahim</em></p>
+    <p>Assalamualaikum warahmatullahi wabarakatuh</p>
+    <div class="divider"></div>
+
+    <div class="names">Yudha Saputra</div>
+    <p>Putra dari Bapak Sargio & Ibu Nurmala Dewi (Almh)</p>
+
+    <p><strong>Dengan</strong></p>
+
+    <div class="names">Multiana Riski</div>
+    <p>Putri dari Bapak Murni (Alm) & Ibu Arida</p>
+  </section>
+
+  <section>
+    <h3>Menuju Hari Bahagia</h3>
+    <div class="divider"></div>
+    <div class="countdown">
+      <div><span id="days">0</span>Hari</div>
+      <div><span id="hours">0</span>Jam</div>
+      <div><span id="minutes">0</span>Menit</div>
+      <div><span id="seconds">0</span>Detik</div>
+    </div>
+  </section>
+
+  <section class="event-box">
+    <h3>Acara Resepsi</h3>
+    <p><strong>Jum'at, 6 Februari 2026</strong></p>
+    <p>Pukul 09.00 WIB – Selesai</p>
+    <p>Desa Peradong, Kecamatan Simpang Teritip, Bangka Barat</p>
+
+    <iframe
+      src="https://www.google.com/maps?q=Lapangan+Bola+Dusun+I+Desa+Peradong&output=embed"
+      width="100%" height="300"
+      style="border:0;border-radius:16px;"
+      loading="lazy">
+    </iframe>
+  </section>
+
+  <section>
+    <h3>Amplop Digital</h3>
+    <div class="divider"></div>
+
+    <p><strong>Bank BRI</strong></p>
+    <p id="bri">713901016482531</p>
+    <p>a.n Multiana Riski</p>
+    <button onclick="copyText('bri')">Salin Rekening</button>
+
+    <hr>
+
+    <p><strong>SeaBank</strong></p>
+    <p id="seabank">901167722660</p>
+    <p>a.n Yudha Saputra</p>
+    <button onclick="copyText('seabank')">Salin Rekening</button>
+  </section>
+
+  <section>
+    <h3>Bagikan Undangan</h3>
+    <button style="background:#25D366" onclick="shareWA()">Bagikan via WhatsApp</button>
+  </section>
+
+  <footer>
+    Mohon maaf apabila terdapat kesalahan penulisan nama dan gelar
+  </footer>
+
+</div>
+
+<script>
+  function openInvite(){
+    document.getElementById('cover').style.display='none';
+    document.getElementById('main').style.display='block';
+    document.getElementById('bgMusic').play();
+  }
+
+  const targetDate = new Date('2026-02-06T09:00:00').getTime();
+  setInterval(()=>{
+    const now=new Date().getTime();
+    const diff=targetDate-now;
+    document.getElementById('days').innerText=Math.floor(diff/(1000*60*60*24));
+    document.getElementById('hours').innerText=Math.floor((diff/(1000*60*60))%24);
+    document.getElementById('minutes').innerText=Math.floor((diff/(1000*60))%60);
+    document.getElementById('seconds').innerText=Math.floor((diff/1000)%60);
+  },1000);
+
+  function copyText(id){
+    navigator.clipboard.writeText(document.getElementById(id).innerText);
+    alert('Nomor rekening berhasil disalin');
+  }
+
+  function shareWA(){
+    const url=window.location.href;
+    const text=`Assalamualaikum warahmatullahi wabarakatuh\n\nKami mengundang Anda ke pernikahan kami:\n\nYudha & Tiana\n\n${url}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+  }
+</script>
+
+</body>
+</html>
